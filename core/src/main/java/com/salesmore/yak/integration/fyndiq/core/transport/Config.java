@@ -6,11 +6,13 @@ import javax.net.ssl.SSLContext;
 
 /**
  * Any Rest Client Configuration - options that are configured with Fyndiq or other merchant rest client.
- *
  */
 public final class Config {
 
-    public static final Config DEFAULT = new Config();
+    public static final Config DEFAULT = new Config().withHostnameVerifier(UntrustedSSL.getHostnameVerifier())
+            .withReadTimeout(100000)
+            .withSSLVerificationDisabled();
+
 
     private int connectTimeout;
     private int readTimeout;
@@ -30,7 +32,6 @@ public final class Config {
     public static Config newConfig() {
         return new Config();
     }
-
 
 
     /**
@@ -116,7 +117,7 @@ public final class Config {
 
     /**
      * If no SSL Context has been specified and this SSL Verification is disabled we will by pass certificate checks (useful for self signed certificates).
-     *
+     * <p>
      * NOTE: This property used to be known as "useNonStrictSSL" in previous releases
      *
      * @return Config
@@ -200,21 +201,19 @@ public final class Config {
                 return false;
         } else if (!proxy.equals(other.proxy))
             return false;
-        if(sslContext == null) {
-        	if(other.getSslContext() != null) {
-        		return false;
-        	}
-        } else if(!sslContext.equals(other.getSslContext())) {
-        	return false;
+        if (sslContext == null) {
+            if (other.getSslContext() != null) {
+                return false;
+            }
+        } else if (!sslContext.equals(other.getSslContext())) {
+            return false;
         }
-        if(hostNameVerifier == null) {
-        	if(other.getHostNameVerifier() != null) {
-        		return false;
-        	}
-        } else if(!hostNameVerifier.equals(other.getHostNameVerifier())) {
-        	return false;
-        }
-        
+        if (hostNameVerifier == null) {
+            if (other.getHostNameVerifier() != null) {
+                return false;
+            }
+        } else return hostNameVerifier.equals(other.getHostNameVerifier());
+
         return true;
     }
 

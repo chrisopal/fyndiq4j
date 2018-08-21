@@ -19,20 +19,8 @@ public abstract class AbstractTest {
     protected FQClient fqClient;
 
     protected FQClient fqClient() {
-         fqClient = FQClientFactory.builder()
-                .endpoint(SERVER_ENDPOINT)
-                .merchantId(MERCHANT_ID)
-                .token(TOKEN_ID)
-                .withConfig(config())
-                .authenticate();
+         fqClient = FQClientFactory.newClient(MERCHANT_ID, TOKEN_ID, SERVER_ENDPOINT);
          return fqClient;
     }
 
-    protected Config config(){
-        Config config = Config.newConfig();
-        config.withHostnameVerifier(UntrustedSSL.getHostnameVerifier())
-                .withReadTimeout(100000)
-                .withSSLVerificationDisabled();
-        return config;
-    }
 }
