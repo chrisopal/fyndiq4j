@@ -28,18 +28,25 @@ Quick Usage Guide
 
 Below are some examples of the API usage.
 
-#### Using Client:
+#### Using Client Builder:
 ```java
 //Client Example
-private static final String MERCHANT_ID = "3eb1d426-0b6e-4dcd-90d0-3c1547016ff1";
-private static final String TOKEN_ID = "6a43767e-0f13-47f7-831f-264bfb5589e3";
-private static final String SERVER_ENDPOINT = "https://merchants-api-sandbox.fyndiq.com/api/v1";
-
 FQClient fqClient = FQClientFactory.builder()
-                .endpoint(SERVER_ENDPOINT)
-                .merchantId(MERCHANT_ID)
-                .token(TOKEN_ID)
+                .endpoint("https://merchants-api-sandbox.fyndiq.com/api/v1")
+                .merchantId("3eb1d426-0b6e-4dcd-90d0-3c1547016ff1")
+                .token("6a43767e-0f13-47f7-831f-264bfb5589e3")
                 .withConfig(config())
                 .authenticate();
 ```
+
+#### New Client
+```java
+FQClient fqClient = FQClientFactory.newClient("3eb1d426-0b6e-4dcd-90d0-3c1547016ff1", "6a43767e-0f13-47f7-831f-264bfb5589e3", "https://merchants-api-sandbox.fyndiq.com/api/v1");
+```
+
+#### Get Orders
+```java
+fqClient().orders().list()
+```
+
 
